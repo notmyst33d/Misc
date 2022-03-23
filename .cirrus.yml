@@ -3,7 +3,7 @@ task:
   timeout_in: 120m
   container:
     image: debian:unstable
-    cpu: 16
+    cpu: 8
     memory: 16G
 
   build_script:
