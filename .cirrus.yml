@@ -7,6 +7,6 @@ task:
     memory: 16G
 
   build_script:
-    - apt update
-    - apt upgrade
+    - apt update -y
+    - apt upgrade -y
     - df -h
