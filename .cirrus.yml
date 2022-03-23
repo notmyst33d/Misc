@@ -1,0 +1,12 @@
+task:
+  name: Build
+  timeout_in: 120m
+  container:
+    image: debian:unstable
+    cpu: 16
+    memory: 16G
+
+  build_script:
+    - sudo apt update
+    - sudo apt upgrade
+    - df -h
