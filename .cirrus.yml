@@ -2,14 +2,14 @@ task:
   name: Build
   timeout_in: 180m
   container:
-    image: debian:unstable
+    image: ubuntu:latest
     cpu: 8
     memory: 16G
 
   build_script:
     - apt update -y
     - apt upgrade -y
-    - apt install curl git -y
+    - apt install curl git python-is-python2 python3 -y
     - curl -o /bin/repo https://storage.googleapis.com/git-repo-downloads/repo
     - chmod +x /bin/repo
     - mkdir android
