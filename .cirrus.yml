@@ -14,6 +14,8 @@ task:
     - chmod +x /bin/repo
     - mkdir android
     - cd android
+    - git config --global user.name "Myst33d"
+    - git config --global user.email "notmyst33d@gmail.com"
     - repo init -u https://android.googlesource.com/platform/manifest -b android-12.1.0_r1 --depth=1
     - git clone https://github.com/phhusson/treble_manifest .repo/local_manifests -b android-12.0
     - repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags
