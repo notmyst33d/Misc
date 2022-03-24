@@ -1,4 +1,4 @@
-download:
+download_task:
   name: Download
   timeout_in: 180m
   container:
@@ -19,7 +19,7 @@ download:
       - repo init -u https://android.googlesource.com/platform/manifest -b android-12.1.0_r1 --depth=1
       - repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags
 
-build:
+build_task:
   name: Build
   depends_on: Download
   timeout_in: 120m
@@ -32,3 +32,4 @@ build:
     folder: android
     build_script:
       - ls -lh
+      - ls -lh android
