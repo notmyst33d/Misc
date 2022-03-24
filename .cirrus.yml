@@ -1,35 +1,25 @@
-download_task:
-  name: Download
+task:
+  name: Build
   timeout_in: 180m
   container:
     image: debian:unstable
     cpu: 8
     memory: 16G
 
-  download_cache:
-    folder: android
-    download_script:
-      - apt update -y
-      - apt upgrade -y
-      - apt install curl git -y
-      - curl -o /bin/repo https://storage.googleapis.com/git-repo-downloads/repo
-      - chmod +x /bin/repo
-      - mkdir android
-      - cd android
-      - repo init -u https://android.googlesource.com/platform/manifest -b android-12.1.0_r1 --depth=1
-      - repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags
-
-build_task:
-  name: Build
-  depends_on: Download
-  timeout_in: 120m
-  container:
-    image: debian:unstable
-    cpu: 8
-    memory: 16G
-
-  build_cache:
-    folder: android
-    build_script:
-      - ls -lh
-      - ls -lh android
+  build_script:
+    - apt update -y
+    - apt upgrade -y
+    - apt install curl git -y
+    - curl -o /bin/repo https://storage.googleapis.com/git-repo-downloads/repo
+    - chmod +x /bin/repo
+    - mkdir android
+    - cd android
+    - repo init -u https://android.googlesource.com/platform/manifest -b android-12.1.0_r1 --depth=1
+    - git clone https://github.com/phhusson/treble_manifest .repo/local_manifests -b android-12.0
+    - repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags
+    - cd device/phh/treble
+    - bash generate.sh
+    - cd ../../../
+    - . build/envsetup.sh
+    - lunch treble_arm64_bvN-userdebug
+    - make RELAX_USES_LIBRARY_CHECK=true BUILD_NUMBER=$rom_fp -j8 systemimage
